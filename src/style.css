@@ -20,3 +20,76 @@
 .header div {
     margin: auto;
 }
+
+.content{
+    display: flex;
+}
+
+.sidebar{
+    display: flex;
+    flex-direction: column;
+    border: black solid 2px;
+    height: 100vh;
+    width: 25vw;
+
+}
+
+.all-categories-title,.projects-title{
+    font-size: 30px;
+    color: purple;
+}
+
+.hidden{
+
+  display: none;
+}
+
+
+.author{
+    margin-top: auto;
+}
+
+.task-content{
+    display: flex;
+    flex-direction: column;
+    width: 75vw;
+}
+
+.task-title{
+    font-size: 30px;
+    color: blue;
+    margin: 10px;
+}
+
+#add-task{
+
+    color: gray;
+    font-size: 12px;
+}
+
+.high{
+    color: red;
+
+}
+
+.critical{
+    color: blue;
+
+}
+
+dialog{
+    background: lightblue;
+    position: absolute;
+    float: left;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.task-object{
+    font-weight: bold;
+}
+
+.complete{
+    font-size: 38px;
+}
