@@ -40,6 +40,7 @@
 }
 
 .hidden{
+    transition-delay: 3s;
 
   display: none;
 }
@@ -92,4 +93,10 @@ dialog{
 
 .complete{
     font-size: 38px;
+}
+
+.sidebar{
+    transition-duration: 2s;
+  transition-delay: 3s;
+
 }

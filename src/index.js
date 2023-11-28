@@ -2,7 +2,7 @@ import {format } from 'date-fns'
 import { divide } from 'lodash'
 import {project_list,Project, Task} from "./class.js"
 import "./dom.js"
-import { dialog, dialog2, form, form2} from "./dom.js"
+import { dialog, dialog2, form, form2,showButton} from "./dom.js"
 
 let projectNumber_
 let taskNumber_
@@ -13,10 +13,16 @@ const taskTabs = document.querySelectorAll(".task-view");
 const projects = document.getElementById("projects-title");
 const task_title = document.querySelector(".task-title");
 const tasks = document.getElementById("tasks");
+let x = document.querySelector(".show-modal");
 const taskObjects = document.querySelectorAll(".task-object");
 
+let shift = document.getElementById("shift");
+let sidebar = document.querySelector(".sidebar");
 
-
+shift.addEventListener("click", (e) => {
+  sidebar.classList.toggle("hidden");
+})
+pageOpener();
 
 taskTabs.forEach( (tab) => {
   tab.addEventListener("click", showAllProjects);
@@ -26,11 +32,32 @@ taskTabs.forEach( (tab) => {
 
 
 
+function pageOpener(){
+  
+  x.classList.add("hidden");
+ // showButton.classList.add("hidden");
+  task_title.textContent = "AllProjects";
+  let numOfProjects = project_list.length;
+
+
+  for (let i = 0; i < numOfProjects; i++){
+    let numOfTasks = project_list[i].tasks.length;
+    
+    for (let j = 0; j < numOfTasks; j++){
+      let currTask = project_list[i].tasks[j];
+      populateTasks(currTask,i,j);
+    }
+  }
+}
+
+
 
 
 function showAllProjects(e){
+  x.classList.add("hidden");
+  //alert("bith");
   tasks.innerHTML = "";
-  
+  task_title.textContent = e.target.id;
   let numOfProjects = project_list.length;
   
   if(e.target.id == "AllProjects"){
@@ -145,6 +172,26 @@ function showAllProjects(e){
       }
     }
   }
+  else if(e.target.id == "PastDue"){
+    let date = new Date();
+    let today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    let todayTimeMS = today.getTime();
+    for (let i = 0; i < numOfProjects; i++){
+      let numOfTasks = project_list[i].tasks.length;
+      
+      for (let j = 0; j < numOfTasks; j++){
+        let currTask = project_list[i].tasks[j];
+        const dueDate = new Date(currTask.date);
+        let dueDateTimeMS = dueDate.getTime();
+        
+        
+        if (todayTimeMS > dueDateTimeMS){
+          populateTasks(currTask,i,j);
+        }
+      }
+    } 
+  }
+
 }
 
 
@@ -201,8 +248,11 @@ export function modifyTask(){
 
 
 function showTasks(e){
+  x.classList.remove("hidden");
   
   let currProject = e.target.id;
+
+  let num = 0;
 
   alert(e.target.id);
   let numOfTasks = project_list[currProject].tasks.length;
@@ -211,8 +261,12 @@ function showTasks(e){
   for(let i = 0; i < numOfTasks; i++){
     let currTask = project_list[currProject].tasks[i];
     populateTasks(currTask, currProject, i);
-    
+    num++;
   }
+
+ // let existingProjects = projects.querySelectorAll(".projectName");
+  
+
   task_title.textContent = project_list[currProject].name;
   task_title.setAttribute("id",e.target.id);
 
@@ -382,9 +436,29 @@ function createProjectTab(project){
   deleteGraphic.style.width = "20px";
   deleteProject.appendChild(deleteGraphic);
 
+
   editProject.addEventListener("click", editProjectTab)
-  //deleteProject.addEventListener("click", deleteProjectTab);
+  deleteProject.addEventListener("click", (e) => {
+    
+    e.stopPropagation();
+    projects.removeChild(proj);
+    let existingProjects = projects.querySelectorAll(".projectName");
+    //deleteProjectTab(projName.id);
+    alert(existingProjects.length);
+    project_list.splice(projName.id,1);
+
+    alert(project_list.length);
+
+    for(let i = 0; i < project_list.length; i++){
+
+      existingProjects[i].id = i;
+      alert(`Project Name: ${existingProjects[i].name} ---------- New Project ID: ${existingProjects[i].id}`);
+    }
+
+    return;
+  });
   
+
 
 
 
@@ -396,7 +470,7 @@ function createProjectTab(project){
 }
 
 function editProjectTab(event){
-  if(document.querySelectorAll(".editProject").length > 1){
+  if(document.querySelectorAll(".editProject").length == 1){
     return;
 
   }
@@ -434,13 +508,14 @@ input.addEventListener("click", (e) => {
   rename.addEventListener("click", (e) => 
   {
     e.stopPropagation()
-    renameThis(editProjectForm,projectName,input)})
+    renameThis(editProjectForm,project,projectName,input)})
 
     cancel.addEventListener("click", (e) => 
   {
     //e.stopPropagation()
     editProjectForm.reset();
-    editProjectForm.classList.add("hidden");
+    project.removeChild(editProjectForm)
+    //editProjectForm.classList.add("hidden");
   })
 
 
@@ -449,19 +524,19 @@ input.addEventListener("click", (e) => {
 
 
 
-function renameThis(form, projectName,input){
+function renameThis(form, project, projectName,input){
   if(input.value){
   projectName.textContent = input.value;
   project_list[projectName.id].name = input.value;
   form.reset();
-  form.classList.toggle("hidden");
+  project.removeChild(form);
   }
  
   //alert(proj.id);
 }
 
-function deleteProjectTab(event){
-
+function deleteProjectTab(id){
+  alert(id);
 }
 
 
