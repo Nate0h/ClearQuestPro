@@ -10,7 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.17.21"
+    "date-fns": "^2.30.0",
+    "lodash": "^4.17.21",
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "css-loader": "^6.8.1",

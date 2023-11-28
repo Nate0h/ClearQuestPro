@@ -1,8 +1,13 @@
-import { compareAsc, format } from 'date-fns'
-import { EvalSourceMapDevToolPlugin } from 'webpack';
+import {format } from 'date-fns'
+import { divide } from 'lodash'
 import {project_list,Project, Task} from "./class.js"
 import "./dom.js"
-import {form} from "./dom.js"
+import { dialog, dialog2, form, form2} from "./dom.js"
+
+let projectNumber_
+let taskNumber_
+let domHolder
+
 
 const taskTabs = document.querySelectorAll(".task-view");
 const projects = document.getElementById("projects-title");
@@ -42,10 +47,8 @@ function showAllProjects(e){
   else if(e.target.id == "Today"){
     let date = new Date();
     let today = format(new Date(date.getFullYear(), date.getMonth(), date.getDate()), 'yyyy-MM-dd');
-    
     for (let i = 0; i < numOfProjects; i++){
       let numOfTasks = project_list[i].tasks.length;
-      
       for (let j = 0; j < numOfTasks; j++){
         let currTask = project_list[i].tasks[j];
         alert(`${currTask.date} -------- ${today}`);
@@ -54,6 +57,7 @@ function showAllProjects(e){
         }
       }
     }
+
   }
   else if(e.target.id == "SevenDays"){
     let date = new Date();
@@ -102,16 +106,44 @@ function showAllProjects(e){
       
       return 0;
     });
-    
-    priorityTasks.forEach(currTask => {
-      populateTasks(currTask,i,j);
-    });
+
+    for (let i = 0; i < numOfProjects; i++){
+      let numOfTasks = project_list[i].tasks.length;
+      
+      for (let j = 0; j < numOfTasks; j++){
+        let currTask = project_list[i].tasks[j];
+        if(currTask.priority != "none"){
+          populateTasks(currTask,i,j);
+        }
+      }
+    }
   }
   else if(e.target.id == "Complete"){
+    for (let i = 0; i < numOfProjects; i++){
+      let numOfTasks = project_list[i].tasks.length;
+      
+      for (let j = 0; j < numOfTasks; j++){
+        let currTask = project_list[i].tasks[j];
+        alert(currTask.isComplete);
+        if(currTask.isComplete){
+        populateTasks(currTask,i,j);
+        }
+      }
+    }
     
   }
   else if(e.target.id == "Incomplete"){
-    
+    for (let i = 0; i < numOfProjects; i++){
+      let numOfTasks = project_list[i].tasks.length;
+      
+      for (let j = 0; j < numOfTasks; j++){
+        let currTask = project_list[i].tasks[j];
+        alert(currTask.isComplete);
+        if(!currTask.isComplete){
+        populateTasks(currTask,i,j);
+        }
+      }
+    }
   }
 }
 
@@ -129,28 +161,56 @@ export function createTask(){
   let description = form.elements[1].value;
   let due_date = form.elements[2].value;
   let priority = form.elements[3].value;
+  let new_task = new Task(title, description, due_date, priority, false);
   project_list[currProject].tasks.push(new_task);
 
   let taskNum = project_list[currProject].tasks.length - 1;
   
-  
-  let new_task = new Task(title, description, due_date, priority, false);
 
   populateTasks(new_task,currProject,taskNum);
 
-  
-  
 }
+
+export function modifyTask(){
+  let task = project_list[projectNumber_].tasks[taskNumber_];
+
+  let title = domHolder.querySelector(".title");
+  let description = domHolder.querySelector(".description");
+  let dueDate = domHolder.querySelector(".date");
+  let priority = domHolder.querySelector(".priority");
+
+  task.title = form2.elements[0].value;
+  task.description = form2.elements[1].value;
+  task.date = dueDate.textContent = form2.elements[2].value;
+  task.priority = form2.elements[3].value;
+
+  title.textContent = form2.elements[0].value;
+  description.textContent = form2.elements[1].value;
+  dueDate.textContent = form2.elements[2].value;
+
+  domHolder.classList.remove(priority.textContent);
+  domHolder.classList.add(form2.elements[3].value);
+  priority.textContent = form2.elements[3].value;
+
+
+  }
+
+
+
+
 
 
 function showTasks(e){
+  
   let currProject = e.target.id;
+
+  alert(e.target.id);
   let numOfTasks = project_list[currProject].tasks.length;
   tasks.innerHTML = "";
   
   for(let i = 0; i < numOfTasks; i++){
     let currTask = project_list[currProject].tasks[i];
-    populateTasks(e,currTask, currProject, i);
+    populateTasks(currTask, currProject, i);
     
   }
   task_title.textContent = project_list[currProject].name;
@@ -166,14 +226,21 @@ function populateTasks(currTask, project_num, task_num){
   task.setAttribute("projectNum",project_num);
   task.setAttribute("taskNum",task_num);
 
+ 
   task.classList.add("task-object");
   let checkbox = document.createElement("input");
+  checkbox.classList.add("taskComplete");
   checkbox.type = "checkbox"
   checkbox.name = "isComplete";
   checkbox.id = "isComplete";
 
   let label = document.createElement("label");
   label.for = "isComplete";
+
+  if(currTask.isComplete == true){
+      task.classList.add("complete");
+      checkbox.checked = true;
+  }
   label.appendChild(document.createTextNode('Finished?'));
 
 
@@ -182,9 +249,13 @@ function populateTasks(currTask, project_num, task_num){
 
 
   let title_dom = document.createElement("div");
+  title_dom.classList.add("title");
   let descr_dom = document.createElement("div");
+  descr_dom.classList.add("description");
   let date_dom = document.createElement("div");
+  date_dom.classList.add("date");
   let prior_dom = document.createElement("div");
+  prior_dom.classList.add("priority");
   
   title_dom.textContent = currTask.title;
   descr_dom.textContent = currTask.description;
@@ -201,14 +272,30 @@ function populateTasks(currTask, project_num, task_num){
     }  
   }
 
-  
+  let editOption = document.createElement("div");
+  let editGraphic = document.createElement("img");
+  editGraphic.src = "../dist/images/threelines.svg";
+  editGraphic.style.height = "20px";
+  editGraphic.style.width = "20px";
+  editOption.appendChild(editGraphic);
+
+  let deleteOption = document.createElement("div");
+  let deleteGraphic = document.createElement("img");
+  deleteGraphic.src = "../dist/images/threelines.svg";
+  deleteGraphic.style.height = "20px";
+  deleteGraphic.style.width = "20px";
+  deleteOption.appendChild(deleteGraphic);
+
   task.appendChild(title_dom);
   task.appendChild(descr_dom);
   task.appendChild(date_dom);
   task.appendChild(prior_dom);
+  task.appendChild(editOption);
+  task.appendChild(deleteOption);
 
 
-
+  editOption.addEventListener("click", openEditTask)
+  deleteOption.addEventListener("click", deleteTask);
   checkbox.addEventListener("click", completeTask);
   
 
@@ -217,16 +304,43 @@ function populateTasks(currTask, project_num, task_num){
   tasks.appendChild(task);
   
 }
+
+function openEditTask(event){
+  projectNumber_ = event.target.parentElement.parentElement.getAttribute("projectNum");
+  taskNumber_ = event.target.parentElement.parentElement.getAttribute("taskNum");
+  domHolder = event.target.parentElement.parentElement;
+
+  dialog2.showModal();
+}
+
+function deleteTask(event){
+
+  projectNumber_ = event.target.parentElement.parentElement.getAttribute("projectNum");
+  taskNumber_ = event.target.parentElement.parentElement.getAttribute("taskNum");
+
+  tasks.removeChild(event.target.parentElement.parentElement);
+  project_list[projectNumber_].tasks.splice(taskNumber_,1);
+
+}
+
+
+
+
+
 function completeTask(event){
-alert("hey ya");
   
-/*alert(event.target.parentElement.getAttribute("projectNum"));
+let i = event.target.parentElement.getAttribute("projectNum");
+let j = event.target.parentElement.getAttribute("taskNum");
    if(event.target.checked){
     event.target.parentElement.classList.add("complete");
+    project_list[i].tasks[j].isComplete = true;
   }
   else{
     event.target.parentElement.classList.remove("complete");
-  }*/
+    project_list[i].tasks[j].isComplete = false;
+  }
+
+  //alert(project_list[i].tasks[j].isComplete);
 }
 
 //This can be refactored further
@@ -234,9 +348,12 @@ export function createProject(){
   let element = document.getElementById("projectInput");
   let proj = new Project(element.value);
   project_list.push(proj);
+
+
   
   let newProject = createProjectTab(proj);
-  newProject.addEventListener("click", showTasks);
+  let projectName = newProject.querySelector(".projectName");
+  projectName.addEventListener("click", showTasks);
   projects.appendChild(newProject);
   
   
@@ -245,11 +362,107 @@ export function createProject(){
 
 function createProjectTab(project){
   let proj = document.createElement("div");
-  proj.setAttribute("id", project_list.length - 1);
-  proj.textContent = project.name;
+  let projName = document.createElement("div");
+  projName.setAttribute("id", project_list.length - 1);
+  projName.classList.add("projectName");
+  projName.textContent = project.name;
+  proj.appendChild(projName);
+
+  let editProject = document.createElement("div");
+  let editGraphic = document.createElement("img");
+  editGraphic.src = "../dist/images/threelines.svg";
+  editGraphic.style.height = "20px";
+  editGraphic.style.width = "20px";
+  editProject.appendChild(editGraphic);
+
+  let deleteProject = document.createElement("div");
+  let deleteGraphic = document.createElement("img");
+  deleteGraphic.src = "../dist/images/threelines.svg";
+  deleteGraphic.style.height = "20px";
+  deleteGraphic.style.width = "20px";
+  deleteProject.appendChild(deleteGraphic);
+
+  editProject.addEventListener("click", editProjectTab)
+  //deleteProject.addEventListener("click", deleteProjectTab);
+  
+
+
+
+  proj.appendChild(editProject);
+  proj.appendChild(deleteProject);
+
+
   return proj;
 }
 
+function editProjectTab(event){
+  if(document.querySelectorAll(".editProject").length > 1){
+    return;
+
+  }
+
+  event.stopPropagation();
+  let project = event.target.parentElement.parentElement;
+  let projectName = project.querySelector(".projectName");
+  let editProjectForm = document.createElement("form");
+  editProjectForm.classList.add("editProject");
+
+let inputNewProjectContainer = document.createElement("div");
+  let input = document.createElement("input");
+  input.required = true;
+  input.type = "text";
+
+  let formButtons = document.createElement("div");
+  let rename = document.createElement("input");
+  rename.type = "button";
+  rename.value = "Rename"
+  let cancel = document.createElement("input");
+  cancel.type = "button";
+  cancel.value = "cancel";
+  formButtons.appendChild(rename);
+  formButtons.appendChild(cancel);
+
+input.addEventListener("click", (e) => {
+  e.stopImmediatePropagation();
+})
+  inputNewProjectContainer.appendChild(input);
+  inputNewProjectContainer.appendChild(formButtons);
+
+  editProjectForm.appendChild(inputNewProjectContainer);
+  event.target.parentElement.parentElement.appendChild(editProjectForm);
+
+  rename.addEventListener("click", (e) => 
+  {
+    e.stopPropagation()
+    renameThis(editProjectForm,projectName,input)})
+
+    cancel.addEventListener("click", (e) => 
+  {
+    //e.stopPropagation()
+    editProjectForm.reset();
+    editProjectForm.classList.add("hidden");
+  })
+
+
+}
+
+
+
+
+function renameThis(form, projectName,input){
+  if(input.value){
+  projectName.textContent = input.value;
+  project_list[projectName.id].name = input.value;
+  form.reset();
+  form.classList.toggle("hidden");
+  }
+ 
+  //alert(proj.id);
+}
+
+function deleteProjectTab(event){
+
+}
 
 
 
