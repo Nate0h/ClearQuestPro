@@ -2,19 +2,55 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: LibreBasker;
 
+}
+:root{
+    --violet: #e9dbfa;
+    --blue: #2e88cd; 
+    
+}
+
+@font-face{
+    font-family: LibreBasker;
+    src: url('../dist/fonts/LibreBaskerville-Regular.ttf');
 }
 .header{
     display: flex;
+    font-family: LibreBasker;
     flex: 1;
     justify-content: space-between;
-    border: black solid 2px;
-
+    color: purple;
+    
+    background-color: var(--violet);
+    font-size: 38px;
+    border-bottom: purple solid 2px;
+    height: 12vh;
+    padding-bottom: 15px;
+    
 }
 
-.header img{
-     height: 50px;
-     width: 50px;
+#quest{
+    color: var(--blue);
+    font-weight: bolder;
+}
+
+#shift{
+     height: 45px;
+     width: 45px;
+     align-self: center;
+}
+#checkmark-logo{
+    height: 45px;
+    width: 45px;
+    margin-top: 25px;
+    align-self: center;
+}
+
+#shift:hover{
+    cursor: pointer;
+    background-color: rgb(215, 212, 212);
+    border-radius: 20%;
 }
 
 .header div {
