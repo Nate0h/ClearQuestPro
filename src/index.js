@@ -137,19 +137,19 @@ export function populateTasks(currTask, project_num, task_num){
 
   let viewOption = document.createElement("div");
   let viewGraphic = document.createElement("img");
-  viewGraphic.src = "../dist/images/eye.png";
+  viewGraphic.src = "./images/eye.png";
  
   viewOption.appendChild(viewGraphic);
 
   let editOption = document.createElement("div");
   let editGraphic = document.createElement("img");
-  editGraphic.src = "../dist/images/edit.png";
+  editGraphic.src = "./images/edit.png";
  
   editOption.appendChild(editGraphic);
 
   let deleteOption = document.createElement("div");
   let deleteGraphic = document.createElement("img");
-  deleteGraphic.src = "../dist/images/delete.png";
+  deleteGraphic.src = "./images/delete.png";
 
   deleteOption.appendChild(deleteGraphic);
 

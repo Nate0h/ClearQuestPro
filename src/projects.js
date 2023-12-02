@@ -31,12 +31,12 @@ export function createProject(){
   
     let editProject = document.createElement("div");
     let editGraphic = document.createElement("img");
-    editGraphic.src = "../dist/images/edit.png";
+    editGraphic.src = "./images/edit.png";
     editProject.appendChild(editGraphic);
   
     let deleteProject = document.createElement("div");
     let deleteGraphic = document.createElement("img");
-    deleteGraphic.src = "../dist/images/delete.png";
+    deleteGraphic.src = "./images/delete.png";
     deleteProject.appendChild(deleteGraphic);
   
   
