@@ -1,0 +1,467 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: LibreBasker;
+
+}
+:root{
+    --violet: #e9dbfa;
+    --blue: #2e88cd; 
+    
+}
+
+@font-face{
+    font-family: LibreBasker;
+    src: url('../dist/fonts/LibreBaskerville-Regular.ttf');
+}
+.header{
+    display: flex;
+    font-family: LibreBasker;
+    flex: 1;
+    justify-content: space-between;
+    color: purple;
+    overflow: hidden;
+    background-color: var(--violet);
+    font-size: 4vw;
+    border-bottom: purple solid 2px;
+    height: 12vh;
+    padding-bottom: 2vw;
+    
+}
+
+#quest{
+    color: var(--blue);
+    font-weight: bolder;
+}
+
+#shift{
+     height: 45px;
+     width: 45px;
+     align-self: flex-end;
+}
+#checkmark-logo{
+    height: 45px;
+    width: 45px;
+    margin-top: 25px;
+    align-self: center;
+}
+
+#shift:hover{
+    cursor: pointer;
+    background-color: rgb(215, 212, 212);
+    transition: 200ms;
+    transform: scale(1.2); 
+    border-radius: 20%;
+}
+
+.header div {
+    margin: auto;
+}
+
+.home{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 1.3vh;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+   
+}
+
+.home:hover{
+    transition: 200ms;
+    cursor: pointer;
+    background-color: #50b9e670;
+    border-radius: 10px;
+    
+}
+.selected{
+        border-radius: 10px;
+        color: var(--blue);
+        border-left: solid 4px var(--blue) !important;
+        background-color: #50b9e670;
+        
+}
+.home div{
+    flex: 1;
+    
+}
+
+.home img{
+    margin-left: 10px;
+    width: 45px;
+    height: 45px;
+}
+
+.content{
+    display: flex;
+}
+
+.sidebar{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    width: 20vw;
+    background-color: rgb(228, 231, 234);
+
+}
+
+
+
+.hidden{
+
+  display: none;
+}
+
+#projectTitle{
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: purple;
+    border-bottom: solid 2px purple;
+    padding: 3px;
+    margin: 10px;
+
+}
+
+#projectsContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.projectTab{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 1.3vh;
+    /*padding-top: 10px;*/
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 3px;
+    border-bottom: solid .2px black;
+
+}
+
+.projectName{
+    cursor: pointer;
+    border:solid 3px #885df1;
+    overflow: auto;
+    width: fit-content;
+    height: 45px;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    border-radius: 12px;
+    padding: 5px;
+}
+
+.projectName:hover{
+    border-color: #662eed !important;
+    background: #662eed !important;
+    color: white;
+
+}
+
+.action{
+    display: flex;
+    gap: 10px;
+}
+
+.action div img{
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+}
+
+.action div img:hover{
+    background-color: rgb(215, 212, 212);
+    border-radius: 20%;
+    transform: scale(1.2); 
+    transition: .4s ease-out; 
+}
+
+#add-project{
+border-radius: 50px;
+background: #885df1;
+text-decoration: none;
+color: #fff !important;
+font-size: 16px;
+line-height: 22px;
+padding: 10px 20px;
+border: none;
+border: 1px solid #885df1;
+transition: 200ms ease, border-color 200ms ease;
+align-self: center;
+cursor: pointer;
+margin-top: 15px;
+}
+
+#add-project:hover{
+border-color: #662eed !important;
+background: #662eed !important;
+}
+
+#project-form{
+    align-self: center;
+}
+
+#projectInput, #orm-container-1 input{
+
+    padding: 6px 12px;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    appearance: none;
+    border-radius: 4px;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    margin: 10px;
+    
+}
+
+#projectInput:focus{
+    color: #212529;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+}
+
+#add,#cancel,#confirmBtn,#confirmBtn2{
+width: 75px;
+color: white;
+ height: 25px;
+ cursor: pointer;
+ align-items: center;
+ background-color: rgb(85, 215, 85);
+ border: none;
+ border-radius: 5px;
+ box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+}
+
+#cancel:hover{
+-webkit-box-shadow:0px 0px 23px 4px rgba(255,46,46,1);
+-moz-box-shadow: 0px 0px 23px 4px rgba(255,46,46,1);
+box-shadow: 0px 0px 23px 4px rgba(255,46,46,1);
+}
+
+#add:hover{
+    -webkit-box-shadow:0xpx 0px 23px 4px rgb(43, 197, 56);
+    -moz-box-shadow: 0px 0px 23px 4px rgb(103, 230, 65);
+    box-shadow: 0px 0px 23px 4px rgb(6, 136, 21);
+}
+
+#cancel{
+    background-color: rgb(221, 75, 70);
+}
+.author{
+    display: flex;
+    margin-top: auto;
+    align-self: center;
+}
+
+#github{
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+}
+
+
+.task-content{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    padding: 20px;
+    
+    
+}
+
+.projectTitle{
+
+    color: purple;
+    border-bottom: solid 2px purple;
+    margin: 10px;
+    height: 60px;
+    padding: 10px;
+    font-size: 2.3rem;
+    border-radius: 3px;
+    justify-content: center ;
+}
+
+.addTask{
+    border-radius: 50px;
+background: #885df1;
+text-decoration: none;
+color: #fff !important;
+font-size: 16px;
+line-height: 22px;
+padding: 10px 20px;
+border: none;
+margin: auto;
+border: 1px solid #885df1;
+transition: 200ms ease, border-color 200ms ease;
+align-self: center;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.addTask:hover{
+    border-color: #662eed !important;
+    background: #662eed !important;
+    }
+    
+
+.taskContainer{
+    display: flex;
+    justify-content: center;
+}
+
+#form-container-1,#form-container-2{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-content: center;
+    align-items: center;
+    height: 300px;
+    width: 300px;
+    gap: 10px;
+    color: #662eed;
+}
+
+#form-container-1 input:focus{
+    color: #212529;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+}
+
+#form-container-2 input:focus{
+    color: #212529;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+}
+
+
+
+#confirmBtn2:hover{
+    -webkit-box-shadow:0xpx 0px 23px 4px rgb(43, 197, 56);
+    -moz-box-shadow: 0px 0px 23px 4px rgb(103, 230, 65);
+    box-shadow: 0px 0px 23px 4px rgb(6, 136, 21);
+}
+
+#confirmBtn:hover{
+    -webkit-box-shadow:0xpx 0px 23px 4px rgb(43, 197, 56);
+    -moz-box-shadow: 0px 0px 23px 4px rgb(103, 230, 65);
+    box-shadow: 0px 0px 23px 4px rgb(6, 136, 21);
+}
+
+
+
+#description{
+    height: 100px;
+    width: 150px;
+}
+
+
+dialog{
+    background: lightblue;
+    position: absolute;
+    float: left;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#dialog-3{
+    height: 250px;
+    width: 200px;
+    text-align: center;
+}
+
+#dialog-3 button{
+    margin-bottom: 20px;
+}
+
+#dialog-3 label{
+    color: #662eed;
+    font-weight: bolder;
+}
+
+#dialog-3 div div{
+    color: white;
+}
+
+.check-title{
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.check-title .title{
+    color: purple;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.task-object{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    font-weight: bold;
+    border-radius: 10px;
+    color: var(--blue);
+    background-color: #50b9e670;
+    border: solid  #662eed 2px;
+    margin: 10px;
+    height: 40px;
+    padding: 10px;
+}
+
+.modify{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.modify img {
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+}
+
+.modify img:hover{
+    border-radius: 20%;
+    transform: scale(1.2); 
+    transition: .4s ease-out; 
+}
+.complete{
+    background-color: rgb(215, 211, 211);
+    color: black;
+    text-decoration: line-through;
+}
+
+.high{
+    color: red;
+    background-color: orange;
+
+}
+
+.critical{
+    color: yellow;
+    background-color: rgb(241, 63, 63);
+
+}
