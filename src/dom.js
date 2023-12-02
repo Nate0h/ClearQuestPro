@@ -1,5 +1,6 @@
 
-import {createTask, modifyTask, createProject} from "./index.js"
+import {createTask, modifyTask,} from "./index.js"
+import {createProject} from "./projects.js"
 const addProject = document.getElementById('add-project');
 const projectForm = document.getElementById("project-form");
 const cancel = document.getElementById('cancel');
@@ -26,13 +27,15 @@ addProject.addEventListener("click", function(){
 
 export const dialog = document.getElementById("dialog-1");
 export const dialog2 = document.getElementById("dialog-2");
-const showButton = document.querySelector(".show-modal");
+
+//This can probably be removed and imported
+const addTask = document.querySelector(".addTask");
 const closeButton = document.querySelector("#dialog-1 button");
 const closeButton2 = document.querySelector("#dialog-2 button");
 export const form = document.querySelector("#form-container-1");
 export const form2 = document.querySelector("#form-container-2");
 
-showButton.addEventListener("click", () => {
+addTask.addEventListener("click", () => {
   dialog.showModal();
 });
 

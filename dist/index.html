@@ -18,31 +18,52 @@
 <div class="content">
 
     <div class="sidebar"> 
-        <div class="all-categories-title">All Tasks</div>
+        <div class="all-categories-title"></div>
         <div class="all-categories">
 
-            <div class = "task-view" id = "AllProjects">All Projects</div>
-            
-            <div class = "task-view" id = "Today">Today</div>
+            <div class = "home">
+                <img src="../dist/images/inbox-mail-messages.png" alt="All">
+                <div id = "All Projects">All Projects</div>
+            </div>
 
-            <div class = "task-view" id = "SevenDays">Next 7 Days</div>
+            <div class = "home">
+                <img src="../dist/images/today.png" alt="today">
+                <div id = "Today">Today</div>
+            </div>
 
-            <div class = "task-view" id = "Priority">Priority</div>
+            <div class = "home">
+                <img src="../dist/images/7days.png" alt="7 Days">
+                <div id = "Due In Seven Days">Next 7 Days</div>
+            </div>
 
-            <div class = "task-view" id = "Complete">Completed</div>
+            <div class = "home">
+                <img src="../dist/images/priority.png" alt="Priority">
+                <div id = "Priority">Priority</div>
+            </div>
 
-            <div class = "task-view" id = "Incomplete">Incomplete</div>
+            <div class = "home">
+                <img src="../dist/images/completed.png" alt="Completed">
+                <div id = "Complete">Completed</div>
+            </div>
 
-            <div class = "task-view" id = "PastDue">Past Due</div>
+            <div class = "home">
+                <img src="../dist/images/incomplete.png" alt="Incomplete">
+                <div id = "Incomplete">Incomplete</div>
+            </div>
 
+            <div class = "home">
+                <img src="../dist/images/pastdue.png" alt="Past Due">
+                <div id = "Past Due">Past Due</div>
+            </div>
 
         </div>
 <br>
-        <div id="projects-title">Projects</div>
+        <div id = "projectTitle">Projects</div>
+        <div id="projectsContainer"></div>
 
         <form id="project-form" class= "hidden" autocomplete="off">
             <div>
-                <input type="text" id="projectInput" placeholder="Enter Project Name" maxlength="24" required>
+                <input type="text" id="projectInput" placeholder="*Enter Project Name" maxlength="24" required>
                 <div class="formButtons">
                     <input id = "add" type="button"  value="Add">
                     <input id = "cancel" type="button"  value="Cancel">
@@ -50,49 +71,50 @@
             </div>
         </form>
       
-    
-        <div id="projects">
-            <button id="add-project">
-                <img src="" alt="">
-                <span>Add Project</span>
-                <img src="" alt="">
-            </button>
-        </div> 
+        <button id="add-project">
+        <span>Add Project</span>
+        </button>
+        
 
 
         
         <div class="author">
             <div>Created By Nate-O</div>
+            <a href ="">
+                <img id = "github" src="../dist/images/github.png"> 
+            </a>
         </div>
 
     </div>
 
     <div class="task-content">
-    <div class="task-title">Task Title</div>
+    <div class="projectTitle"></div>
     <div id="tasks">
     </div>
-    <div>
+    <div class = "taskContainer">
         <dialog id = "dialog-1">
             <button autofocus>Close</button>
+            <br>
             <form action="" id="form-container-1">
-                <h1>New Task</h1>
-                    <div>
+                    
                     <label for="title">Title</label>
-                    <input type="text" id="title" name="title" required>
+                    <div>
+                    <input type="text" id="title" name="title" placeholder = "*Enter Title"required>
                     </div>
 
-                    <div>
                     <label for="description">Description</label>
-                    <input type="text" id="description" name="description" required>
+                    <div>
+                        <textarea id="description" name="description" placeholder="*Enter Description" required rows="20" cols="60"></textarea>
+            
                     </div>
 
-                    <div>
                     <label for="date">Due Date</label>
+                    <div>
                     <input type="date" id="date" name="date" required>
                     </div>
 
-                    <div>
                     <label for="priority">Read?</label>
+                    <div>
                     <select id="priority" name="priority">
                         <option value="none">None</option>
                         <option value="high">High</option>
@@ -108,39 +130,41 @@
 
         <dialog id = "dialog-2">
             <button autofocus>Close</button>
+            <br>
             <form action="" id="form-container-2">
-                <h1>New Task</h1>
-                    <div>
-                    <label for="title">Title</label>
-                    <input type="text" id="title" name="title" required>
-                    </div>
+               
+                <label for="title">Title</label>
+                <div>
+                <input type="text" id="title" name="title" placeholder = "*Enter Title"required>
+                </div>
 
-                    <div>
-                    <label for="description">Description</label>
-                    <input type="text" id="description" name="description" required>
-                    </div>
+                <label for="description">Description</label>
+                <div>
+                    <textarea id="description" name="description" placeholder="*Enter Description" required rows="20" cols="60"></textarea>
+        
+                </div>
 
-                    <div>
-                    <label for="date">Due Date</label>
-                    <input type="date" id="date" name="date" required>
-                    </div>
+                <label for="date">Due Date</label>
+                <div>
+                <input type="date" id="date" name="date" required>
+                </div>
 
-                    <div>
-                    <label for="priority">Read?</label>
-                    <select id="priority" name="priority">
-                        <option value="none">None</option>
-                        <option value="high">High</option>
-                        <option value="critical">Critical</option>
-                    </select>
-                    </div>
+                <label for="priority">Read?</label>
+                <div>
+                <select id="priority" name="priority">
+                    <option value="none">None</option>
+                    <option value="high">High</option>
+                    <option value="critical">Critical</option>
+                </select>
+                </div>
 
-                  
-                <button type="submit" formmethod="dialog" id="confirmBtn" value="default">Save </button>
+              
+            <button type="submit" formmethod="dialog" id="confirmBtn" value="default">Submit</button>
             </form>
 
         </dialog>
     
-        <button class="show-modal">+ Add Task</button>
+        <button class="addTask">Add Task</button>
 
     
     </div>
