@@ -32,15 +32,11 @@ export function createProject(){
     let editProject = document.createElement("div");
     let editGraphic = document.createElement("img");
     editGraphic.src = "../dist/images/edit.png";
-    editGraphic.style.height = "20px";
-    editGraphic.style.width = "20px";
     editProject.appendChild(editGraphic);
   
     let deleteProject = document.createElement("div");
     let deleteGraphic = document.createElement("img");
     deleteGraphic.src = "../dist/images/delete.png";
-    deleteGraphic.style.height = "20px";
-    deleteGraphic.style.width = "20px";
     deleteProject.appendChild(deleteGraphic);
   
   
@@ -101,7 +97,6 @@ export function createProject(){
     
       project_list.splice(projectName.id,1);
   
-      alert(project_list.length);
   
       for(let i = 0; i < project_list.length; i++){
           currentProjects[i].id = i;

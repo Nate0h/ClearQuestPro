@@ -2,7 +2,8 @@ import {addTask,pageOpener} from './home.js'
 import {project_list,Project, Task} from "./class.js"
 import{projects} from "./projects.js"
 import "./dom.js"
-import {dialog2, form, form2} from "./dom.js"
+import {dialog2,dialog3, form, form2} from "./dom.js"
+
 
 let projectNumber_
 let taskNumber_
@@ -48,9 +49,7 @@ export function modifyTask(){
   let task = project_list[projectNumber_].tasks[taskNumber_];
 
   let title = domHolder.querySelector(".title");
-  let description = domHolder.querySelector(".description");
   let dueDate = domHolder.querySelector(".date");
-  let priority = domHolder.querySelector(".priority");
 
   task.title = form2.elements[0].value;
   task.description = form2.elements[1].value;
@@ -58,12 +57,10 @@ export function modifyTask(){
   task.priority = form2.elements[3].value;
 
   title.textContent = form2.elements[0].value;
-  description.textContent = form2.elements[1].value;
   dueDate.textContent = form2.elements[2].value;
 
   domHolder.classList.remove(priority.textContent);
   domHolder.classList.add(form2.elements[3].value);
-  priority.textContent = form2.elements[3].value;
 
 
   }
@@ -85,7 +82,7 @@ export function showTasks(e){
   for(let i = 0; i < numOfTasks; i++){
     let currTask = project_list[currProject].tasks[i];
     populateTasks(currTask, currProject, i);
-    num++;
+  
   }
 
 
@@ -103,38 +100,27 @@ export function populateTasks(currTask, project_num, task_num){
  
   task.classList.add("task-object");
   let checkbox = document.createElement("input");
-  checkbox.classList.add("taskComplete");
   checkbox.type = "checkbox"
   checkbox.name = "isComplete";
   checkbox.id = "isComplete";
 
-  let label = document.createElement("label");
-  label.for = "isComplete";
+
 
   if(currTask.isComplete == true){
       task.classList.add("complete");
       checkbox.checked = true;
   }
-  label.appendChild(document.createTextNode('Finished?'));
 
-
-  task.appendChild(checkbox);
-  task.appendChild(label);
 
 
   let title_dom = document.createElement("div");
   title_dom.classList.add("title");
-  let descr_dom = document.createElement("div");
-  descr_dom.classList.add("description");
+ 
   let date_dom = document.createElement("div");
   date_dom.classList.add("date");
-  let prior_dom = document.createElement("div");
-  prior_dom.classList.add("priority");
   
   title_dom.textContent = currTask.title;
-  descr_dom.textContent = currTask.description;
   date_dom.textContent = currTask.date;
-  prior_dom.textContent = currTask.priority;
   
   
   if(currTask.priority != "none"){
@@ -146,28 +132,43 @@ export function populateTasks(currTask, project_num, task_num){
     }  
   }
 
+  let modifyTask = document.createElement("div");
+  modifyTask.classList.add("modify");
+
+  let viewOption = document.createElement("div");
+  let viewGraphic = document.createElement("img");
+  viewGraphic.src = "../dist/images/eye.png";
+ 
+  viewOption.appendChild(viewGraphic);
+
   let editOption = document.createElement("div");
   let editGraphic = document.createElement("img");
-  editGraphic.src = "../dist/images/threelines.svg";
-  editGraphic.style.height = "20px";
-  editGraphic.style.width = "20px";
+  editGraphic.src = "../dist/images/edit.png";
+ 
   editOption.appendChild(editGraphic);
 
   let deleteOption = document.createElement("div");
   let deleteGraphic = document.createElement("img");
-  deleteGraphic.src = "../dist/images/threelines.svg";
-  deleteGraphic.style.height = "20px";
-  deleteGraphic.style.width = "20px";
+  deleteGraphic.src = "../dist/images/delete.png";
+
   deleteOption.appendChild(deleteGraphic);
 
-  task.appendChild(title_dom);
-  task.appendChild(descr_dom);
+  modifyTask.appendChild(viewOption);
+  modifyTask.appendChild(editOption);
+  modifyTask.appendChild(deleteOption);
+
+  let checkTitleContainer = document.createElement("div");
+  checkTitleContainer.classList.add("check-title");
+  checkTitleContainer.appendChild(checkbox);
+  checkTitleContainer.appendChild(title_dom);
+
+  task.appendChild(checkTitleContainer);
   task.appendChild(date_dom);
-  task.appendChild(prior_dom);
-  task.appendChild(editOption);
-  task.appendChild(deleteOption);
+  task.appendChild(modifyTask);
+  
 
 
+  viewOption.addEventListener("click", viewTask);
   editOption.addEventListener("click", openEditTask)
   deleteOption.addEventListener("click", deleteTask);
   checkbox.addEventListener("click", completeTask);
@@ -179,20 +180,43 @@ export function populateTasks(currTask, project_num, task_num){
   
 }
 
+export function viewTask(event){
+
+  
+  let i = event.target.parentElement.parentElement.parentElement.getAttribute("projectNum");
+  let j = event.target.parentElement.parentElement.parentElement.getAttribute("taskNum");
+
+
+
+  let title = document.getElementById("title-view");
+  let descr = document.getElementById("description-view");
+  let date = document.getElementById("date-view");
+  let priority = document.getElementById("priority-view");
+  
+  title.textContent = project_list[i].tasks[j].title;
+  descr.textContent = project_list[i].tasks[j].description;
+  date.textContent = project_list[i].tasks[j].date;
+  priority.textContent = project_list[i].tasks[j].priority;
+
+
+  dialog3.showModal();
+
+}
+
 export function openEditTask(event){
-  projectNumber_ = event.target.parentElement.parentElement.getAttribute("projectNum");
-  taskNumber_ = event.target.parentElement.parentElement.getAttribute("taskNum");
-  domHolder = event.target.parentElement.parentElement;
+  projectNumber_ = event.target.parentElement.parentElement.parentElement.getAttribute("projectNum");
+  taskNumber_ = event.target.parentElement.parentElement.parentElement.getAttribute("taskNum");
+  domHolder = event.target.parentElement.parentElement.parentElement;
 
   dialog2.showModal();
 }
 
 export function deleteTask(event){
 
-  projectNumber_ = event.target.parentElement.parentElement.getAttribute("projectNum");
-  taskNumber_ = event.target.parentElement.parentElement.getAttribute("taskNum");
+  projectNumber_ = event.target.parentElement.parentElement.parentElement.getAttribute("projectNum");
+  taskNumber_ = event.target.parentElement.parentElement.parentElement.getAttribute("taskNum");
 
-  tasks.removeChild(event.target.parentElement.parentElement);
+  tasks.removeChild(event.target.parentElement.parentElement.parentElement);
   project_list[projectNumber_].tasks.splice(taskNumber_,1);
 
 }
@@ -201,18 +225,18 @@ export function deleteTask(event){
 
 export function completeTask(event){
   
-let i = event.target.parentElement.getAttribute("projectNum");
-let j = event.target.parentElement.getAttribute("taskNum");
+  let i = event.target.parentElement.parentElement.getAttribute("projectNum");
+  let j = event.target.parentElement.parentElement.getAttribute("taskNum");
    if(event.target.checked){
-    event.target.parentElement.classList.add("complete");
+    event.target.parentElement.parentElement.classList.add("complete");
     project_list[i].tasks[j].isComplete = true;
   }
   else{
-    event.target.parentElement.classList.remove("complete");
+    event.target.parentElement.parentElement.classList.remove("complete");
     project_list[i].tasks[j].isComplete = false;
   }
 
-  //alert(project_list[i].tasks[j].isComplete);
+
 }
 
 //This can be refactored further
